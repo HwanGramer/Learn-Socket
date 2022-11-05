@@ -1,4 +1,5 @@
 
+const { Console } = require('console');
 const { combineLatestInit } = require('rxjs/internal/observable/combineLatest');
 const WebSocket = require('ws');
 const ws = new WebSocket.Server({port : 8008}); //? 포트번호를 넘긴다? 
@@ -13,6 +14,7 @@ ws.on("connection" , function connect(ws , req){ //? 웹소켓에 특정 클라�
 
     ws.on('close',()=>{ //? 접속해제시 핸들러 req.user에 클라이언트 정보가 담겨있음 ALL_ws에서 삭제시키면됨.
         ALL_ws = ALL_ws.filter((e)=> e.userNickName !== req.user.nickName ); //? 유저닉네임을 찾아서 삭제시킴.
+        console.log(req.user.nickName + '님이 퇴장함');
         sendUserList(ws); //? 삭제되었으니 모든 클라이언트 동기화 시켜줌 
         console.log('클라이언트 접속해제');
     })
